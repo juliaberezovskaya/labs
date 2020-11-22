@@ -59,7 +59,7 @@ namespace S3L1test
 			MixedFraction mix = MixedFraction::CreateMixedFraction(1, 4, 0);
 			Fraction sim = Fraction::Create(1, 4);
 
-			mix.Fraction::Sum(sim);
+			mix = mix.Fraction::Sum(sim);
 			
 			Assert::AreEqual(1, mix.GetNumerator());
 			Assert::AreEqual(2, mix.GetDenominator());

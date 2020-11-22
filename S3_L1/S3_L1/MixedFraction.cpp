@@ -1,4 +1,7 @@
 #include "MixedFraction.h"
+
+#include <string>
+
 #include "MathUtils.h"
 
 MixedFraction::MixedFraction() : Fraction()
@@ -128,4 +131,10 @@ MixedFraction MixedFraction::Div(MixedFraction& other)
 	simpleFraction1 = simpleFraction1.Div(simpleFraction2);
 	MixedFraction res = MixedFraction(simpleFraction1);
 	return res;
+}
+
+std::string MixedFraction::ToString(const MixedFraction& obj)
+{
+	std::string str = std::to_string(obj.m_whole_part) + ' ' + std::to_string(obj.m_numerator) + '/' + std::to_string(obj.m_denominator);
+	return str;
 }

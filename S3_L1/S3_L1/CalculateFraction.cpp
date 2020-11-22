@@ -1,4 +1,5 @@
 #include "CalculateFraction.h"
+#include <string>
 
 CalculateFraction::CalculateFraction() : Fraction()
 {
@@ -9,8 +10,7 @@ CalculateFraction::CalculateFraction(Fraction& other)
 {
 	m_numerator = other.GetNumerator();
 	m_denominator = other.GetDenominator();
-	double num = other.GetNumerator();
-	c_calculation = num / other.GetDenominator();
+	SetCalculation(m_numerator, m_denominator);
 }
 
 CalculateFraction CalculateFraction::CreateCalculate(int numerator, int denominator)
@@ -19,15 +19,15 @@ CalculateFraction CalculateFraction::CreateCalculate(int numerator, int denomina
 	CalculateFraction res;
 	res.SetNumerator(numerator);
 	res.SetDenominator(denominator);
-	double num = numerator;
-	res.c_calculation = num / denominator;
+	res.c_calculation = (double)numerator / denominator;
 	return res;
 }
 
 void CalculateFraction::SetCalculation(int numerator, int denominator)
 {
-	double num = numerator;
-	c_calculation = num / denominator;
+	if (denominator == 0) throw std::exception("Denominator is zero");
+	
+	c_calculation = (double)numerator / denominator;
 }
 
 double CalculateFraction::GetCalculation()
@@ -145,4 +145,11 @@ CalculateFraction CalculateFraction::Div(CalculateFraction& other)
 	res.SetDenominator(frRes.GetDenominator());
 	res.SetCalculation(frRes.GetNumerator(), frRes.GetDenominator());
 	return res;
+}
+
+std::string CalculateFraction::ToString(const CalculateFraction& obj)
+{
+	std::string str;
+	str = std::to_string(obj.m_numerator) + '/' + std::to_string(obj.m_denominator) + " calculate: " + std::to_string(obj.c_calculation);
+	return str;
 }

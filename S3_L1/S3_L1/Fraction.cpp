@@ -1,6 +1,7 @@
 #include "Fraction.h"
 #include "MathUtils.h"
 #include <exception>
+#include <string>
 
 Fraction::Fraction()
 {
@@ -99,6 +100,13 @@ Fraction Fraction::Inverse()const
 {
 	if (m_numerator == 0) throw std::exception("Denominator is zero");
 	return Create(m_denominator, m_numerator);
+}
+
+std::string Fraction::ToString(const Fraction& obj)
+{
+	std::string str;
+	str = std::to_string( m_numerator) + '/' + std::to_string(m_denominator);
+	return str;
 }
 
 std::ostream& operator<<(std::ostream& os, const Fraction& fraction)

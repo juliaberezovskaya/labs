@@ -30,7 +30,7 @@ void RunCalcCreatingTests(TFrVector& v, CalcVector& calcFr)
 		calcFr[2].GetDenominator() == v[2].GetDenominator() &&
 		calcFr[2].GetCalculation() == num / den)
 		std::cout << "subtest 3 success (Fraction -> Calculate Fraction constructor)" << std::endl;
-	else std::cout << "subtest 3 fail (Fraction -> Calculate Fraction constructor)" << std::endl;
+	else std::cout << "subtest 3 FAIL (Fraction -> Calculate Fraction constructor)" << std::endl;
 	double calc = 2.0 / 3.0;
 	if (calcFr[3].GetNumerator() == 2 && 
 		calcFr[3].GetDenominator() == 3 && 
@@ -47,10 +47,14 @@ void RunMixCreatingTests(TFrVector& v, MixedVector& mix)
 
 	if (mix[0].GetNumerator() == 0 && mix[0].GetDenominator() == 1 && mix[0].GetWhole() == 0)
 		std::cout << "subtest 1 success (Default constructor)" << std::endl;
-	else std::cout << "subtest 1 fail (Default constructor)" << std::endl;
+	else
+		std::cout << "subtest 1 fail (Default constructor)" << std::endl;
+
 	if (mix[1].GetNumerator() == 1 && mix[1].GetDenominator() == 2 && mix[1].GetWhole() == 0)
 		std::cout << "subtest 2 success (Fraction -> Mixed Fraction constructor)" << std::endl;
-	else std::cout << "subtest 2 fail (Fraction -> Mixed Fraction constructor)" << std::endl;
+	else 
+		std::cout << "subtest 2 fail (Fraction -> Mixed Fraction constructor)" << std::endl;
+	
 	if (mix[2].GetNumerator() == 3 && mix[2].GetDenominator() == 4 && mix[2].GetWhole() == 0)
 		std::cout << "subtest 3 success (Fraction -> Mixed Fraction constructor)" << std::endl;
 	else std::cout << "subtest 3 fail (Fraction -> Mixed Fraction constructor)" << std::endl;
@@ -62,8 +66,100 @@ void RunMixCreatingTests(TFrVector& v, MixedVector& mix)
 	else std::cout << "subtest 5 fail (settable constructor)" << std::endl;
 	if (mix[5].GetNumerator() == 1 && mix[5].GetDenominator() == 2 && mix[5].GetWhole() == 7)
 		std::cout << "subtest 6 success (Fraction -> Mixed Fraction constructor)" << std::endl;
-	else std::cout << "subtest 6 fai (Fraction -> Mixed Fraction constructor)l" << std::endl;
+	else std::cout << "subtest 6 fail (Fraction -> Mixed Fraction constructor)l" << std::endl;
 	std::cout << std::endl;
+}
+
+void RunExceptionsTests(TFrVector& f)
+{
+	std::cout << "Test 3: creating unexceptable fraction" << std::endl << std::endl << "subtest 1 ";
+	try
+	{
+		Fraction err = Fraction::Create(5, 0);
+		std::cerr << "ERROR: Created object with zero division" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "success (creating Fraction with zero denominator)" << std::endl;
+	}
+
+	std::cout << "subtest 2 ";
+	try
+	{
+		MixedFraction err = MixedFraction::CreateMixedFraction(5, 0, 0);
+		std::cerr << "ERROR: Created object with zero division" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "success (creating MixedFraction with zero denominator)" << std::endl;
+	}
+
+	std::cout << "subtest 3 ";
+	try
+	{
+		CalculateFraction err = CalculateFraction::CreateCalculate(5, 0);
+		std::cerr << "ERROR: Created object with zero division" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "success (creating CalculateFraction with zero denominator)" << std::endl;
+	}
+
+	std::cout << "subtest 4 ";
+	try
+	{
+		CalculateFraction err;
+		err.SetCalculation(5, 0);
+		std::cerr << "ERROR: Created object with zero division" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout  << "success (setting calculation with zero denominator)" << std::endl;
+	}
+
+	std::cout << "subtest 5 ";
+	try
+	{
+		Fraction result = f[7].Sum(f[8]);
+		std::cerr << "ERROR: Sum is over int" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "success (overloading sum)" << std::endl;
+	}
+
+	std::cout << "subtest 6 ";
+	try
+	{
+		Fraction result = f[9].Sub(f[8]);
+		std::cerr << "ERROR: Sub is over int" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "success (overloading subtraction)" << std::endl;
+	}
+	
+	std::cout << "subtest 7 ";
+	try
+	{
+		Fraction result = f[7].Mul(f[8]);
+		std::cerr << "ERROR: Mul is over int" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "success (overloading multiply)" << std::endl;
+	}
+
+	std::cout << "subtest 8 ";
+	try
+	{
+		Fraction result = f[1].Div(f[3]);
+		std::cerr << "ERROR: Div is over int" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "success (overloading division)" << std::endl;
+	}
 }
 
 void RunArithmeticOperationsCalc(TFrVector& v, CalcVector& calcFr)
@@ -206,11 +302,14 @@ int main()
 	TFrVector v = {									//creating Fraction vector
 		Fraction::Create(1, 2),
 		Fraction::Create(3, 4),
-		Fraction::Create(526, 736),	
+		Fraction::Create(526, 736),
 		Fraction::Create(0, 57),
 		Fraction::Create(45, 6),
 		Fraction::Create(7, 9),
 		Fraction::Create(25, 4),
+		Fraction::Create(2147483640, 2147483642),
+		Fraction::Create(2147400640, 2147480042),
+		Fraction::Create(-2147400640, 2147480042)
 	};
 
 	CalcVector calcFr(4);
@@ -229,10 +328,16 @@ int main()
 	mixFr[4] = MixedFraction::CreateMixedFraction(6, 4, 4);
 	mixFr[5] = MixedFraction(v[4]);
 
+	std::cout << "Tests for 4 lab" << std::endl << std::endl;
+
 	RunCalcCreatingTests(v, calcFr);
 	RunMixCreatingTests(v, mixFr);
 	RunArithmeticOperationsCalc(v, calcFr);
 	RunArithmeticOperationsMix(v, mixFr);
+
+	std::cout << "Tests for 6 lab" << std::endl << std::endl;
+
+	RunExceptionsTests(v);
 	
 	std::cout << "Enter a symbol to finish" << std::endl;
 	std::getchar();

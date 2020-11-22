@@ -22,6 +22,8 @@ public:
 	Fraction Mul(const Fraction& other);
 	Fraction Div(const Fraction& other);
 	Fraction Inverse()const;
+
+	std::string ToString(const Fraction& obj);
 	
 	friend std::ostream& operator << (std::ostream& os, const Fraction& fraction);
 	friend std::istream& operator >> (std::istream& is, Fraction& fraction);

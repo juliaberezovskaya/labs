@@ -18,6 +18,8 @@ public:
 	MixedFraction Sub(MixedFraction& other);
 	MixedFraction Mul(MixedFraction& other);
 	MixedFraction Div(MixedFraction& other);
+
+	std::string ToString(const MixedFraction& obj);
 	
 private:
 	int m_whole_part;
