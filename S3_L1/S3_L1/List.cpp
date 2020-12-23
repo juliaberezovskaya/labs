@@ -8,46 +8,21 @@ List::List()
 
 void List::PushBegin(Fraction& f)
 {
-	BaseContainer* containerPtr = Fabric::CreateContainer(f);
+	BaseContainer* containerPtr = Fabric::CreateContainer(&f);
 	if (m_firstPtr == nullptr && m_lastPtr == nullptr)
 	{
 		m_firstPtr = containerPtr;
 		m_lastPtr = containerPtr;
+		
 		return;
 	}
 	containerPtr->SetNextPtr(m_firstPtr);
 	m_firstPtr = containerPtr;
 }
 
-void List::PushBegin(CalculateFraction& f)
-{
-	BaseContainer* thisptr = Fabric::CreateContainer(f);
-	if (m_firstPtr == nullptr && m_lastPtr == nullptr)
-	{
-		m_firstPtr = thisptr;
-		m_lastPtr = thisptr;
-		return;
-	}
-	thisptr->SetNextPtr(m_firstPtr);
-	m_firstPtr = thisptr;
-}
-
-void List::PushBegin(MixedFraction& f)
-{
-	BaseContainer* thisptr = Fabric::CreateContainer(f);
-	if (m_firstPtr == nullptr && m_lastPtr == nullptr)
-	{
-		m_firstPtr = thisptr;
-		m_lastPtr = thisptr;
-		return;
-	}
-	thisptr->SetNextPtr(m_firstPtr);
-	m_firstPtr = thisptr;
-}
-
 void List::PushBack(Fraction& f)
 {
-	BaseContainer* containerPtr = Fabric::CreateContainer(f);
+	BaseContainer* containerPtr = Fabric::CreateContainer(&f);
 	if (m_firstPtr == nullptr && m_lastPtr == nullptr)
 	{
 		m_firstPtr = containerPtr;
@@ -58,33 +33,6 @@ void List::PushBack(Fraction& f)
 	m_lastPtr = containerPtr;
 }
 
-void List::PushBack(CalculateFraction& f)
-{
-	BaseContainer* containerPtr = Fabric::CreateContainer(f);
-	if (m_firstPtr == nullptr && m_lastPtr == nullptr)
-	{
-		m_firstPtr = containerPtr;
-		m_lastPtr = containerPtr;
-		return;
-	}
-	m_lastPtr->SetNextPtr(containerPtr);
-	m_lastPtr = containerPtr;
-
-}
-
-void List::PushBack(MixedFraction& f)
-{
-	BaseContainer* containerPtr = Fabric::CreateContainer(f);
-	if (m_firstPtr == nullptr && m_lastPtr == nullptr)
-	{
-		m_firstPtr = containerPtr;
-		m_lastPtr = containerPtr;
-		return;
-	}
-	m_lastPtr->SetNextPtr(containerPtr);
-	m_lastPtr = containerPtr;
-
-}
 
 void List::Delete()
 {
@@ -102,38 +50,51 @@ void List::Delete()
 	delete buf;
 }
 
-std::string List::ToString(FrContainer& f)
+std::string List::ToString(BaseContainer& f)
 {
-	return f.GetObj().ToString();
+	return f.GetObj()->ToString();
 }
 
 bool List::IsContain(const Fraction& f) const
 {
-	std::string fKey = f.ToString();
+	char* fKey = new char[150];
+	fKey = f.ToString();
 	for(BaseContainer* curptr = m_firstPtr; curptr != nullptr; curptr=curptr->GetNextPtr())
 	{
-		std::string listItemKey = curptr->Get().ToString();
-		if (fKey == listItemKey) return true;
+		char* listItemKey = new char[150];
+		listItemKey = curptr->Get()->ToString();
+		if (strcmp(fKey, listItemKey) == 0) return true;
 	}
 	return false;
 }
 
-
-std::ostream& operator<<(std::ostream& stream, const List& list)
+BaseContainer* List::GetFirstPtr()
 {
-	if (list.m_firstPtr == nullptr)
+	return m_firstPtr;
+}
+
+char* List::ToString() //ß ÍÅ ÏÎÍÈÌÀÞ
+{
+	char* str = new char[150];
+	if (m_firstPtr == nullptr)
 	{
-		stream << "List is empty";
-		return stream;
+		sprintf(str, "List is empty") ;
+		return str;
 	}
 
-	BaseContainer* curPtr = list.m_firstPtr;
+	BaseContainer* curPtr = m_firstPtr;
+
 	
 	for (; curPtr != nullptr; curPtr = curPtr->GetNextPtr())
 	{
-		if (curPtr != list.m_firstPtr) stream << ' ';
-		stream << curPtr->Get().ToString().c_str();
+		if (curPtr == m_firstPtr) strcpy(str, curPtr->Get()->ToString());
+		else
+		{
+			strcat(str, " ");
+			strcat(str, curPtr->Get()->ToString());
+		}
 	}
 	std::cout << std::endl;
-	return stream;
+	return str;
 }
+

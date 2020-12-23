@@ -17,7 +17,7 @@ public:
 	CalculateFraction Sub(CalculateFraction& other);
 	CalculateFraction Mul(CalculateFraction& other);
 	CalculateFraction Div(CalculateFraction& other);
-	virtual  std::string ToString() const;
+	virtual  char* ToString() const;
 	
 private:
 	double c_calculation;

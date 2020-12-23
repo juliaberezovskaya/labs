@@ -74,8 +74,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="CalculateFraction.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="CreatingElements.cpp" />
     <ClCompile Include="Fabric.cpp" />
     <ClCompile Include="Fraction.cpp" />
     <ClCompile Include="List.cpp" />
@@ -135,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="CalculateFraction.h" />
     <ClInclude Include="Container.h" />
+    <ClInclude Include="CreatingElements.h" />
     <ClInclude Include="Fabric.h" />
     <ClInclude Include="Fraction.h" />
     <ClInclude Include="List.h" />

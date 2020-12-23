@@ -7,7 +7,6 @@ Fraction::Fraction()
 {
 	m_numerator = 0;
 	m_denominator = 1;
-	next = NULL;
 }
 
 Fraction::Fraction(const Fraction& other)
@@ -22,7 +21,6 @@ Fraction Fraction::Create(int numerator, int denominator)
 	Fraction res;
 	res.m_numerator = numerator;
 	res.m_denominator = denominator;
-	res.next = NULL;
 	return res;
 }
 
@@ -104,9 +102,29 @@ Fraction Fraction::Inverse()const
 	return Create(m_denominator, m_numerator);
 }
 
-std::string Fraction::ToString() const
+char* Fraction::ToString() const
 {
-	return std::to_string(m_numerator) + '/' + std::to_string(m_denominator);
+	char *str = new char[150];
+	sprintf_s(str, 150, "%d/%d", m_numerator, m_denominator);
+	return str;
+}
+
+bool operator<(const Fraction& left, const Fraction& right)
+{
+	float lCalc = (float)left.m_numerator / left.m_denominator, rCalc = (float)right.m_numerator / right.m_denominator;
+	if (lCalc < rCalc) return true;
+	return false;
+}
+
+bool operator==(const Fraction& left, const Fraction& right)
+{
+	if (left.m_numerator == right.m_numerator && left.m_denominator == right.m_denominator) return true;
+	return false;
+}
+
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return !(left == right);
 }
 
 std::ostream& operator<<(std::ostream& os, const Fraction& fraction)

@@ -1,16 +1,19 @@
 #include <iostream>
 #include "Fraction.h"
 #include <conio.h>
-#include <fstream>
 #include <sstream>
 #include "CalculateFraction.h"
 #include "List.h"
 #include "MixedFraction.h"
+#include <queue>
+#include <ctime>
+#include "CreatingElements.h"
+#include <map>
+using namespace std;
 
 typedef std::vector<Fraction> TFrVector; //typegef to vector of class Fraction
 typedef std::vector<CalculateFraction> CalcVector;
 typedef std::vector<MixedFraction> MixedVector;
-
 
 void RunCalcCreatingTests(TFrVector& v, CalcVector& calcFr)
 {
@@ -297,38 +300,43 @@ void RunArithmeticOperationsMix(TFrVector& v, MixedVector& mix)
 	std::cout << std::endl;
 }
 
-void RunDemonstrationLabFive(TFrVector& v, CalcVector& calcFr, MixedVector& mix)
+void DoPush (List &list, TFrVector& v, CalcVector& calcFr, MixedVector& mix)
 {
-	std::cout << "Test 5 lab" << std::endl << "We Pushed in list three elements and there is demonstration:" << std::endl;
-	List list;
 	list.PushBegin(v[1]);
 	list.PushBack(calcFr[2]);
 	list.PushBegin(mix[3]);
+}
 
-	std::cout << list << std::endl;
+void RunPushTest(List &list, TFrVector& v, CalcVector& calcFr, MixedVector& mix)
+{
+	DoPush(list, v, calcFr, mix);
+	std::cout << "Push test:";
+	const char* comparingString = new char[150];
+	comparingString = { "0 2/3 3/4 526/736 calculation: 0.714674" };
+	if (strcmp(comparingString, list.ToString()) == 0) {
+		cout << " Success" << std::endl; return;
+	}
+	cout << " Fail" << std::endl;
+}
 
-	std::cout << "Push test:" ;
-	
-	std::string comparingString = mix[3].ToString() + ' ' + v[1].ToString() + ' ' + calcFr[2].ToString();
-	std::stringstream strStr;
-	strStr << list;
-	if (comparingString == strStr.str()) std::cout << "	Success" << std::endl;
-	else std::cout << "	Fail" << std::endl;
-
+void RunDeleteTest(List &list)
+{
 	list.Delete();
-
 	std::cout << "Delete test:";
-		
-	comparingString = v[1].ToString() + ' ' + calcFr[2].ToString();
-	std::stringstream strStr1;
-	strStr1 << list;
-	if (comparingString == strStr1.str()) std::cout << "	Success" << std::endl;
-	else std::cout << "	Fail" << std::endl;
-	
+	const char* comparingString = new char[150];
+	comparingString = { "3/4 526/736 calculation: 0.714674" };
+	if (strcmp(comparingString, list.ToString()) == 0) {
+		cout << " Success" << std::endl; return;
+	}
+	cout << " Fail" << std::endl;
+}
+
+void SearchTests(List &list, TFrVector& v, CalcVector& calcFr, MixedVector& mix)
+{
 	list.PushBack(mix[3]);
 
 	std::cout << "Search tests:" << std::endl;
-
+	
 	if (list.IsContain(v[1])) std::cout << "	Success" << std::endl;
 	else std::cout << "	Fail" << std::endl;
 
@@ -337,19 +345,55 @@ void RunDemonstrationLabFive(TFrVector& v, CalcVector& calcFr, MixedVector& mix)
 
 	if (list.IsContain(calcFr[2])) std::cout << "	Success" << std::endl;
 	else std::cout << "	Fail" << std::endl;
-	
-	list.Delete();
-	list.Delete();
-	list.Delete();
+}
 
+void EmptyListTest(List &list)
+{
 	std::cout << "Empty list test:" << std::endl;
-	
-	comparingString = "List is empty";
-	std::stringstream strStr2;
-	strStr2 << list;
-	if (comparingString == strStr2.str()) std::cout << "	Success" << std::endl;
-	else std::cout << "	Fail" << std::endl;
+	list.Delete();
+	list.Delete();
+	list.Delete();
+	const char* comparingString = new char[150];
+	comparingString = { "List is empty" };
+	if (strcmp(comparingString, list.ToString()) == 0) {
+		cout << " Success" << std::endl; return;
 	}
+	cout << " Fail" << std::endl;
+}
+
+void RunDemonstrationLabFive(TFrVector& v, CalcVector& calcFr, MixedVector& mix)
+{
+	std::cout << "Test 5 lab" << std::endl;
+	List list;
+	
+	RunPushTest(list, v, calcFr, mix);
+
+	RunDeleteTest(list);
+
+	SearchTests(list, v, calcFr, mix);
+	
+	EmptyListTest(list);
+	}
+
+void RunLabEight(TFrVector& v)
+{
+	queue<Fraction> myQueue;
+	CreatingElements::CreateRandomData(myQueue); //добавление 100 элементов
+	for (int i = 0; i < 50; i++) myQueue.pop();
+
+	std::sort(&myQueue.front(),&myQueue.back());
+	Fraction fExisting = v[1], fNotExisting = v[7];
+	myQueue.push(fExisting);
+
+//	auto p = find(myQueue.front(), myQueue.back(), fExisting);
+	
+	map<int,Fraction> myMap;
+	CreatingElements::CreateRandomData(myMap);
+	myMap[101] = fExisting;
+	//find_if(myMap.begin(), myMap.end(), fExisting);
+	//find_if(myMap.begin(), myMap.end(), fNotExisting);
+	
+}
 
 int main()
 {

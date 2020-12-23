@@ -1,22 +1,16 @@
 #pragma once
+#include "CalculateFraction.h"
 #include "Container.h"
+#include "MixedFraction.h"
 
 class Fabric
 {
 public:
 	
-	static FrContainer* CreateContainer(Fraction& f)
+	static BaseContainer* CreateContainer(Fraction* f)
 	{
-		return new FrContainer(f);
+		return new BaseContainer(f);
 	}
-	
-	static BaseContainer* CreateContainer(CalculateFraction& cf)
-	{
-		return new CFrContainer(cf);
-	}
-	static BaseContainer* CreateContainer(MixedFraction& mf)
-	{
-		return new MFrContainer(mf);
-	}
+
 };
 

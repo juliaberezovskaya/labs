@@ -19,7 +19,7 @@ public:
 	MixedFraction Mul(MixedFraction& other);
 	MixedFraction Div(MixedFraction& other);
 
-	virtual std::string ToString() const;
+	virtual char* ToString() const;
 	
 private:
 	int m_whole_part;

@@ -23,7 +23,11 @@ public:
 	Fraction Div(const Fraction& other);
 	Fraction Inverse()const;
 	
-	virtual std::string ToString() const;
+	virtual char* ToString() const;
+
+	friend bool operator < (const Fraction& left, const Fraction& right);
+	friend bool operator ==(const Fraction& left, const Fraction& right);
+	friend bool operator !=(const Fraction& left, const Fraction& right);
 	
 	friend std::ostream& operator << (std::ostream& os, const Fraction& fraction);
 	friend std::istream& operator >> (std::istream& is, Fraction& fraction);
@@ -33,5 +37,4 @@ public:
 protected:
 	int m_numerator;
 	int m_denominator;
-	Fraction* next;
 };

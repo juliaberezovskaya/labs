@@ -7,6 +7,13 @@ BaseContainer::~BaseContainer()
 
 BaseContainer::BaseContainer()
 {
+	obj = nullptr;
+	next = nullptr;
+}
+
+BaseContainer::BaseContainer(Fraction* f)
+{
+	obj = f;
 	next = nullptr;
 }
 
@@ -15,47 +22,18 @@ void BaseContainer::SetNextPtr(BaseContainer* ptr)
 	next = ptr;
 }
 
+Fraction* BaseContainer::Get()
+{
+	return obj;
+}
+
 BaseContainer* BaseContainer::GetNextPtr()
 {
 	return next;
 }
 
-Fraction& FrContainer::Get()
+Fraction* BaseContainer::GetObj()
 {
 	return obj;
 }
 
-Fraction FrContainer::GetObj()
-{
-	return obj;
-}
-
-FrContainer::FrContainer(Fraction fr)
-{
-	obj = fr;
-}
-
-Fraction& CFrContainer::Get()
-{
-	return obj;
-}
-
-CalculateFraction CFrContainer::GetObj()
-{
-	return obj;
-}
-
-CFrContainer::CFrContainer(CalculateFraction cfr)
-{
-	obj = cfr;
-}
-
-MixedFraction MFrContainer::GetObj()
-{
-	return obj;
-}
-
-MFrContainer::MFrContainer(MixedFraction mfr) 
-{
-	obj = mfr;
-}

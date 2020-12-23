@@ -147,7 +147,12 @@ CalculateFraction CalculateFraction::Div(CalculateFraction& other)
 	return res;
 }
 
-std::string CalculateFraction::ToString() const
+char* CalculateFraction::ToString() const
 {
-	return Fraction::ToString() + " calculate: " + std::to_string(c_calculation);
+	char* str = new char[150];
+	char* buf = Fraction::ToString();
+	strcpy_s(str, 150, buf);
+	sprintf(buf, " calculation: %f", c_calculation);
+	strcat(str, buf);
+	return str;
 }

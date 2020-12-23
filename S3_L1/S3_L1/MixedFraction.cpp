@@ -133,8 +133,11 @@ MixedFraction MixedFraction::Div(MixedFraction& other)
 	return res;
 }
 
-std::string MixedFraction::ToString() const
+char* MixedFraction::ToString() const
 {
-	std::string str = std::to_string(m_whole_part) + ' ' + Fraction::ToString();
+	char* str = new char[150];
+	char* buf = Fraction::ToString();
+	sprintf_s(str, 150, "%d ", m_whole_part);
+	strcat(str, buf);
 	return str;
 }
