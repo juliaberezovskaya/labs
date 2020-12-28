@@ -109,9 +109,13 @@ char* Fraction::ToString() const
 	return str;
 }
 
-bool operator<(const Fraction& left, const Fraction& right)
+bool operator<(Fraction& left, Fraction& right)
 {
-	float lCalc = (float)left.m_numerator / left.m_denominator, rCalc = (float)right.m_numerator / right.m_denominator;
+	int ln = left.m_numerator, ld = left.m_denominator, rn = right.m_numerator, rd = right.m_denominator;
+	/*if (ln == 0 && ld == 1) return true;
+	if (rn == 1 && rd == 1) return false;*/
+
+	float lCalc = (float)ln/ld , rCalc = (float)rn/rd;
 	if (lCalc < rCalc) return true;
 	return false;
 }

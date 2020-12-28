@@ -9,7 +9,6 @@
 #include <ctime>
 #include "CreatingElements.h"
 #include <map>
-using namespace std;
 
 typedef std::vector<Fraction> TFrVector; //typegef to vector of class Fraction
 typedef std::vector<CalculateFraction> CalcVector;
@@ -375,23 +374,59 @@ void RunDemonstrationLabFive(TFrVector& v, CalcVector& calcFr, MixedVector& mix)
 	EmptyListTest(list);
 	}
 
-void RunLabEight(TFrVector& v)
+void RunLabEight()
 {
 	queue<Fraction> myQueue;
-	CreatingElements::CreateRandomData(myQueue); //добавление 100 элементов
-	for (int i = 0; i < 50; i++) myQueue.pop();
 
-	std::sort(&myQueue.front(),&myQueue.back());
-	Fraction fExisting = v[1], fNotExisting = v[7];
-	myQueue.push(fExisting);
+	std::cout << "Queue" << endl;
+	
+	int start, result;
 
-//	auto p = find(myQueue.front(), myQueue.back(), fExisting);
+	start = clock();
+	
+	CreatingElements::CreateData(myQueue); //добавление 10000 элементов
+
+	result = clock() - start;
+	std::cout << "Creating time: " << result << endl;
+	
+	/*start = clock();
+	
+	std::sort(&myQueue.front(), &myQueue.back());
+
+	result = clock() - start;
+	std::cout << "Sorting time: " << result << endl;*/
+	
+	start = clock();
+
+	for (int i = 1; i < 10000; i++) myQueue.pop();
+	
+	result = clock() - start;
+	std::cout << "Deleting time: " << result << endl;
+
+	std::cout << endl << "Map" << endl;
 	
 	map<int,Fraction> myMap;
-	CreatingElements::CreateRandomData(myMap);
-	myMap[101] = fExisting;
-	//find_if(myMap.begin(), myMap.end(), fExisting);
-	//find_if(myMap.begin(), myMap.end(), fNotExisting);
+
+	start = clock();
+
+	CreatingElements::CreateData(myMap); //добавление 10000 элементов
+
+	result = clock() - start;
+	std::cout << "Creating time: " << result << endl;
+
+	map<int, Fraction> ::iterator it;
+
+	start = clock();
+	
+	it = myMap.find(10001);
+
+	result = clock() - start;
+	std::cout << "Searching time: " << result << endl;
+
+	start = clock();
+	for (int i = 1; i < 10000; i++) myMap.erase(i);
+	result = clock() - start;
+	std::cout << "Deleting time: " << result << endl;
 	
 }
 
@@ -427,8 +462,10 @@ int main()
 	mixFr[4] = MixedFraction::CreateMixedFraction(6, 4, 4);
 	mixFr[5] = MixedFraction(v[4]);
 
-	RunDemonstrationLabFive(v, calcFr, mixFr);
+	//RunDemonstrationLabFive(v, calcFr, mixFr);
 
+	RunLabEight();
+	
 	std::cout << std::endl << "Enter a symbol to finish" << std::endl;
 	std::getchar();
 }

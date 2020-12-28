@@ -25,7 +25,7 @@ public:
 	
 	virtual char* ToString() const;
 
-	friend bool operator < (const Fraction& left, const Fraction& right);
+	friend bool operator < ( Fraction& left,  Fraction& right);
 	friend bool operator ==(const Fraction& left, const Fraction& right);
 	friend bool operator !=(const Fraction& left, const Fraction& right);
 	
